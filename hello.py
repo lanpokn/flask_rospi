@@ -204,3 +204,7 @@ def steering_geer():
     file_longitude.close()
     return render_template('steering_geer.html',form=form,name = None,ele_azi = ele_azi,
                                 known = True)
+#想连接外网就打开这个，关掉launch.json
+#连之前，关了防火墙，用完再开启，sudo ufw enable，sudo ufw disable
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',port=5000,debug=True)
