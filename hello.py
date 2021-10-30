@@ -22,6 +22,9 @@ file_time = open('variable/time.txt','r')
 user_time = file_time.read()
 file_time.close()
 
+file_longitude = open('variable/longitude.txt','r')
+user_longitude = file_longitude.read()
+file_longitude.close()
 #用于从电脑环境中读取信息，避免重要信息被暴露在网络中，以及配置数据库URL
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -172,11 +175,16 @@ def longitude():
     form = NameForm()
     if form.validate_on_submit():
         msg = form.name.data
-        if(msg=='back' or msg =='Back'):
-            return redirect(url_for('index'))
+        file_longitude = open('variable/longitude.txt','w')
+        file_longitude.write(msg)
+        file_longitude.close()
+        return redirect(url_for('longitude'))
     
-    return render_template('longitude.html',form=form,name = None,
-                            known = True)
+    file_longitude = open('variable/longitude.txt','r')
+    user_longitude = file_longitude.read()
+    file_longitude.close()
+    return render_template('longitude.html',form=form,name = None,user_longitude = user_longitude,
+                                known = True)
 
 @app.route('/steering_geer', methods = ['GET','POST'])
 def steering_geer():
