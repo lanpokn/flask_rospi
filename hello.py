@@ -110,12 +110,13 @@ def make_shell_context():
 #错误界面，建议出现错误时发邮件
 @app.errorhandler(404)
 def page_not_found(e):
-    send_email(app.config['FLASKY_ADMIN'],'404 bug','mail/new_user',user = 404)
+    send_email(app.config['FLASKY_ADMIN'],'404 bug','mail/webpagebug',bug = "404 not found")
     return render_template('404.html'), 404
 
 
 @app.errorhandler(500)
 def internal_server_error(e):
+    send_email(app.config['FLASKY_ADMIN'],'500 bug','mail/webpagebug',bug = "500,internal_server_error")
     return render_template('500.html'), 500
 
 #初次访问时的所有操作均在此处
@@ -192,9 +193,14 @@ def steering_geer():
     msg = None
     form = NameForm()
     if form.validate_on_submit():
-        msg = form.name.data
-        if(msg=='back' or msg =='Back'):
-            return redirect(url_for('index'))
+        # msg = form.name.data
+        # file_longitude = open('variable/longitude.txt','w')
+        # file_longitude.write(msg)
+        # file_longitude.close()
+        return redirect(url_for('steering_geer'))
     
-    return render_template('steering_geer.html',form=form,name = None,
-                            known = True)
+    file_geer = open('variable/steering_geer.txt','r')
+    ele_azi = file_geer.read()
+    file_longitude.close()
+    return render_template('steering_geer.html',form=form,name = None,ele_azi = ele_azi,
+                                known = True)

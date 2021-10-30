@@ -5,14 +5,11 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Hello, {% if name %}{{ name }}{% else %}this is the time{% endif %}!</h1>
-    <h2>The longitude and latitude: East 118°21′-120°30′,North 29°11′-30°33′.</h2>
-    <p>(if you want to go back, please tap back) </P>
-    {% if not known %}
-    <p>Pleased to meet you!</p>
-    {% else %}
-    <p>Happy to see you again!</p>
-    {% endif %}
+    <h1>Hello, {% if name %}{{ name }}{% else %}this is the elevating angle and azimuth angle of the mirror{% endif %}!</h1>
+    <br/>
+    <h3>The elevating and azimuth:</h3> <h2>{{ele_azi}}.</h2>
+    <br/>
+    <p> you may not change steering_geer's parameter directly</p>
 </div>
 {{ wtf.quick_form(form) }}
 {% endblock %}
