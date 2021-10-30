@@ -18,6 +18,10 @@ from flask_migrate import Migrate, current
 #邮件
 from flask_mail import Mail, Message
 
+file_time = open('variable/time.txt','r')
+user_time = file_time.read()
+file_time.close()
+
 #用于从电脑环境中读取信息，避免重要信息被暴露在网络中，以及配置数据库URL
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -52,7 +56,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 mail = Mail(app)
 
-#角色可属于多个用户，而一个用户只能有一个角色
+# 角色可属于多个用户，而一个用户只能有一个角色
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)#列为表的键
@@ -91,7 +95,7 @@ def send_email(to, subject, template, **kwargs):
 
 #只看姓名，无密码
 class NameForm(FlaskForm):
-    name = StringField('What message do you want to check? time,longitude or steering_geer', validators=[DataRequired()])
+    name = StringField('you can type your message to replace local message ', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -111,8 +115,9 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 #初次访问时的所有操作均在此处
+#可以接受参数
 @app.route('/', methods=['GET', 'POST'])
-def index():
+def index(id = 'engineer'):
     msg =  None
     form = NameForm()
     if form.validate_on_submit():
@@ -140,7 +145,7 @@ def index():
         if(msg == 'steering_geer'):
             return redirect(url_for('steering_geer'))
     #未接收到提交时返回一个正常渲染的页面
-    return render_template('index.html', form=form, name='engineer',#name是变量，session是数据库会话，提供改动与交互数据库的接口
+    return render_template('index.html', form=form, name=id,#name是变量，session是数据库会话，提供改动与交互数据库的接口
                            known=True)
 
 #其他的显示同理，关键是更改对应的html文件
@@ -150,11 +155,16 @@ def time():
     form = NameForm()
     if form.validate_on_submit():
         msg = form.name.data
-        if(msg=='back' or msg =='Back'):
-            return redirect(url_for('index'))
+        file_time = open('variable/time.txt','w')
+        file_time.write(msg)
+        file_time.close()
+        return redirect(url_for('time'))
     
-    return render_template('time.html',form=form,name = None,current_time=datetime.utcnow(),
-                            known = True)
+    file_time = open('variable/time.txt','r')
+    user_time = file_time.read()
+    file_time.close()
+    return render_template('time.html',form=form,name = None,current_time=datetime.utcnow(),user_time = user_time,
+                                known = True)
     
 @app.route('/longitude', methods = ['GET','POST'])
 def longitude():

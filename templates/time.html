@@ -8,12 +8,7 @@
     <h1>Hello, {% if name %}{{ name }}{% else %}this is the time{% endif %}!</h1>
     <h2>The local date and time:     {{ moment(current_time).format('LLL') }}.</h2>
     <p>That was {{ moment(current_time).fromNow(refresh=True) }}.<p>
-    <p>(if you want to go back, please tap back) </P>
-    {% if not known %}
-    <p>Pleased to meet you!</p>
-    {% else %}
-    <p>Happy to see you again!</p>
-    {% endif %}
+    <h2> {%if user_time %} the user_defined date and time is {{user_time}} {% endif %}<h2>
 </div>
 {{ wtf.quick_form(form) }}
 {% endblock %}

@@ -23,11 +23,15 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
+                <li><a href="{{ url_for('time',name=engineer) }}"> Time </a></li>
+                <li><a href="{{ url_for('longitude',name=engineer) }}"> Longitude </a></li>
+                <li><a href="{{ url_for('steering_geer',name=engineer) }}"> Steering </a></li>           
             </ul>
         </div>
     </div>
 </div>
 {% endblock %}
+
 
 {% block content %}
 <div class="container">
