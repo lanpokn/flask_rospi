@@ -37,8 +37,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] =\
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #要更改邮件服务器为
-app.config['MAIL_SERVER'] = 'https://mail.qq.com'
-app.config['MAIL_PORT'] = 587
+app.config['MAIL_SERVER'] = 'smtp.qq.com'
+app.config['MAIL_PORT'] = 25
 app.config['MAIL_USE_TLS'] = True
 #为了安全应该export，为了自己方便可以在这改，此处为发件人
 #export MAIL_USERNAME=xx
@@ -47,7 +47,7 @@ app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '[Flasky]'
 #这个的用处？似乎不用改
-app.config['FLASKY_MAIL_SENDER'] = 'Flasky Admin <flasky@example.com>'
+app.config['FLASKY_MAIL_SENDER'] = 'Flasky Admin <2606629917@qq.com>'
 #电子邮件的收件人保存在此处,填电子邮件地址，这个应该不用担心泄密
 # app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
 app.config['FLASKY_ADMIN'] = '2606629917@qq.com'
@@ -110,6 +110,7 @@ def make_shell_context():
 #错误界面，建议出现错误时发邮件
 @app.errorhandler(404)
 def page_not_found(e):
+    send_email(app.config['FLASKY_ADMIN'],'404 bug','mail/new_user',user = 404)
     return render_template('404.html'), 404
 
 
