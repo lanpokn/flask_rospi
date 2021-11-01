@@ -43,7 +43,7 @@ app.config['MAIL_USE_TLS'] = True
 #为了安全应该export，为了自己方便可以在这改，此处为发件人
 #export MAIL_USERNAME=xx
 #export MAIL_PASSWORD=xx
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_USERNAME'] = '2606629917@qq.com'
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '[Flasky]'
 #这个的用处？似乎不用改
